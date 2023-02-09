@@ -2,7 +2,7 @@ import {useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import NavBar from "./NavBar";
 import "../assets/styles/home.css";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 
 const Home = () => {
   const { user} = useContext(UserContext);
@@ -20,7 +20,7 @@ const Home = () => {
           <span>{user.email}</span>
         </h1>
         <div className="quiz">
-          <button><Link to="/quiz">Quiz 1</Link></button>
+          {/* <button><Link to="/quiz">Quiz 1</Link></button> */}
         </div>
       </div>
     </>

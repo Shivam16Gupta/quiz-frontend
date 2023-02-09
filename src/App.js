@@ -4,7 +4,7 @@ import {UserContext} from './context/UserContext';
 import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
-import Quiz from './components/Quiz';
+import QuizInfo from './components/QuizInfo';
 
 function App() {
 
@@ -23,7 +23,7 @@ function App() {
               </>
             )}
             <Route path="*" element={<Navigate to={user ? '/':'/login'} />} />
-            <Route path="/quiz" element={<Quiz/>} />
+            <Route path="/quiz" element={<QuizInfo/>} />
           </Routes>
         </BrowserRouter>
     </div>

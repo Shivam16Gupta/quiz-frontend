@@ -61,6 +61,14 @@
     margin:0.8rem;
     background-color: green !important;
 }
-/* .css-1e6y48t-MuiButtonBase-root-MuiButton-root{
-    
-} */
+.quiz{
+    display: flex;
+    flex-direction: column;
+
+}
+.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root.Mui-selected{
+    background-color:#68B984 !important;
+}
+.css-17tyhk7-MuiButtonBase-root-MuiListItemButton-root.Mui-selected {
+    background-color: #68B984 !important;
+}
