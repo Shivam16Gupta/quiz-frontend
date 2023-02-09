@@ -1,0 +1,66 @@
+.quiz-container{
+    display: flex;
+    flex-direction: column;
+}
+.columns{
+    display: flex;
+    flex-direction: row;
+    height: 94.5vh;
+}
+.header{
+    height: 2.5rem;
+    width:100%;
+    background-color: #5D3891;
+    display: flex;
+    justify-content: flex-end;
+    color: white;
+    font-size:1.8rem;
+}
+.timer{
+    margin-right:7rem;
+    color:white !important;
+    font-size: 1.5rem;
+}
+.nav-quiz{
+    flex-grow: 1;
+    background-color: #F5F5F5;
+    border: 0.1rem solid grey;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+}
+.quiz-window{
+    flex-grow: 4;
+    background-color: #ECF9FF;
+}
+.unattempted{
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    margin:0.4rem;
+}
+.review .save{
+    height:0.2rem;
+    width:1rem; 
+}
+.to-review{
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 50% ;
+    cursor: pointer;
+    margin:0.8rem;
+    background-color: rgb(239, 195, 21) !important;
+}
+.answered{
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    margin:0.8rem;
+    background-color: green !important;
+}
+/* .css-1e6y48t-MuiButtonBase-root-MuiButton-root{
+    
+} */

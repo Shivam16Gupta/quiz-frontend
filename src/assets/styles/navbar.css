@@ -1,0 +1,112 @@
+.navbar {
+  display: flex;
+  flex-direction: row;
+  height: 50px;
+  font-family: "Poppins";
+}
+
+.btn {
+  display: flex;
+  flex-grow: 2;
+  align-items: center;
+  margin-top: 10px;
+}
+#logo > img {
+  float: left;
+  margin-left: 100px;
+}
+
+.elements {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-grow: 1;
+  margin-right: 100px;
+}
+
+.elements :hover {
+  color: red;
+}
+
+.elements > div {
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+#dropdown {
+  display: flex;
+  justify-content: space-between;
+  display: none;
+}
+
+label {
+  cursor: pointer;
+}
+
+input[type="checkbox"] + div .elements {
+  display: block;
+}
+@media only screen and (max-width: 920px) {
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  #logo > img {
+    float: none;
+    justify-content: center;
+    margin: 0;
+    cursor: pointer;
+  }
+  label {
+    margin-left: 10px;
+  }
+
+  #logo {
+    justify-content: center;
+    width: 100%;
+  }
+  .btn {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .elements {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 120px;
+    align-items: flex-start;
+    background-color: #f2f5f7;
+  }
+  input[type="checkbox"] + div .elements {
+    display: block;
+  }
+  input[type="checkbox"] + label .icon-bar {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: black;
+    margin: 4px;
+    transition: all 0.2s;
+  }
+  input[type="checkbox"] + label .top-bar {
+    transform: rotate(0);
+  }
+  input[type="checkbox"] + label .middle-bar {
+    opacity: 1;
+  }
+
+  input[type="checkbox"]:checked + label .top-bar {
+    transform: rotate(45deg);
+    transform-origin: 10% 10%;
+  }
+  input[type="checkbox"]:checked + label .middle-bar {
+    opacity: 0;
+  }
+  input[type="checkbox"]:checked + label .bottom-bar {
+    transform: rotate(-45deg);
+    transform-origin: 10% 90%;
+  }
+}
