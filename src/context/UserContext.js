@@ -92,6 +92,23 @@ export const UserContextProvider = ({children}) => {
         }
     }
 
+    const submitResponse = async ({email,response}) => {
+        setWait(true);
+        try{
+            const {data} = await Axios.post('submit.php',{
+                
+                email,
+                response 
+            });
+            setWait(false);
+            return data;
+        }
+        catch(err){
+            setWait(false);
+            return {success:0, message:'Server Error!'};
+        }
+    }
+
     useEffect(() => {
         async function asyncCall(){
             await loggedInCheck();
@@ -105,7 +122,7 @@ export const UserContextProvider = ({children}) => {
     }
 
     return (
-        <UserContext.Provider value={{registerUser,loginUser,wait, user:theUser,loggedInCheck,logout,renderQuiz,QuizInfo}}>
+        <UserContext.Provider value={{registerUser,loginUser,wait, user:theUser,loggedInCheck,logout,renderQuiz,QuizInfo,submitResponse}}>
             {children}
         </UserContext.Provider>
     );

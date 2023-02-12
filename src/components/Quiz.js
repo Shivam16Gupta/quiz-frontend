@@ -9,30 +9,43 @@ import ListItemButton from "@mui/material/ListItemButton";
 //import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from "@mui/material/ListItemText";
 import Button from "@mui/material/Button";
+import Instruction from "./Instruction";
 
-function Quiz() {
+function Quiz({quizno}) {
   const { days, hours, minutes, seconds } = useTimer("2023-02-03T17:59:59");
-  const { renderQuiz } = useContext(UserContext);
+  const { renderQuiz,submitResponse,user } = useContext(UserContext);
   const [question, setQuestion] = useState([]);
-  const quizid = 1;
+  //const quizid = 1;
   const [temp, setTemp] = useState([]);
   const [index, setIndex] = useState(0);
   const [tray, setTray] = useState({});
   let content = [];
   const [selectedIndex, setSelectedIndex] = React.useState();
+  const [instrucFlag,setInstrucFlag]=useState(false);
+  const [qsize, setQsize] = useState();
+  const [submitData,setSubmitData]=useState({
+    
+  email: "",
+  response: "",
+});
 
   useEffect(() => {
     (async () => {
-      const data = await renderQuiz(quizid);
-
+      const data = await renderQuiz(quizno);
+      
       setQuestion(data.data);
+      
     })();
-    provideQuestion();
+    
+      //provideQuestion(size);
   }, [renderQuiz]);
 
+  let size;
+  
   const provideQuestion = () => {
-    const size = Object.keys(question).length;
+    size=Object.keys(question).length;
     console.log(size);
+    setQsize(size);
     for (let i = 0; i < size; i++) {
       var obj = {};
       obj["questionid"] = question[i].questionid;
@@ -50,11 +63,12 @@ function Quiz() {
       obj["choice3img"] = question[i].choice3img;
       obj["choice4img"] = question[i].choice4img;
       content.push(obj);
-      console.log(content);
+      //console.log(content);
     }
     setTemp([...content]);
-    console.log(temp);
+    //console.log(temp);
     setSelectedIndex(5);
+    setInstrucFlag(true);
   };
 
   const displayQuestion = (e) => {
@@ -65,10 +79,19 @@ function Quiz() {
 
     console.log(tray);
   };
+
   const review = (e) => {
     temp[index].status = "to-review";
   };
 
+  const next=(e,idx)=>{
+    setSelectedIndex(5);
+    var j = idx+1;
+    setIndex(j);
+    setTray(temp[j]);
+
+    console.log(tray);
+  }
   const save = (e) => {
     //temp[index].selected = e.target.getAttribute("value");
     temp[index].status = "answered";
@@ -82,9 +105,24 @@ function Quiz() {
     if (idx === 3) temp[index].selected = temp[index].choice4;
   };
 
+  const submit = async ()=>{
+    console.log(temp+user.email);
+    setSubmitData({
+      ['email']:user.email,
+      ['response']:temp,
+    });
+    const data = await submitResponse(submitData);
+    if (!data.success) {
+      console.log('Quiz Submitted');
+    }
+  }
   return (
+    <>
+    {instrucFlag?(
     <div className="quiz-container">
+      
       <div className="header">
+        
         <Button variant="text">
           <span className="timer">
             {hours}:{minutes}:{seconds}
@@ -152,7 +190,7 @@ function Quiz() {
             <Button
               className="review"
               onClick={review}
-              sx={{ margin: 1 }}
+              sx={{ margin: 1,width:150,height:50 }}
               variant="outlined"
             >
               Mark for Review
@@ -161,11 +199,29 @@ function Quiz() {
             <Button
               className="save"
               variant="outlined"
-              sx={{ margin: 1 }}
+              sx={{ margin: 1,width:150,height:50 }}
               onClick={save}
             >
-              Save & Next
+              Save
             </Button>
+
+            {(index+1!==qsize)?(<Button
+              className="save"
+              variant="outlined"
+              sx={{ margin: 1,width:150,height:50 }}
+              onClick={(e)=> next(e,index)}
+            >
+              Next
+            </Button>):
+            (<Button
+              className="save"
+              variant="outlined"
+              sx={{ margin: 1,width:150,height:50 }}
+              onClick={submit}
+            >
+              Submit
+            </Button>)}
+
           </div>
         </div>
         <div className="nav-quiz">
@@ -190,6 +246,8 @@ function Quiz() {
         </div>
       </div>
     </div>
+    ):(<div className="instruction"><Instruction/><Button sx={{width:100,height:50}} variant='contained' color='error' onClick={provideQuestion}>start</Button></div>)}
+    </>
   );
 }
 

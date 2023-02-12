@@ -2,7 +2,7 @@ import React from "react";
 import {useContext} from 'react'
 import {UserContext} from '../context/UserContext'
 import "../assets/styles/navbar.css";
-import logo from "../assets/images/logo.png";
+import logo from "../assets/images/logo.jpg";
 import { Link } from "react-router-dom";
 
 function NavBar() {
@@ -25,7 +25,7 @@ function NavBar() {
       </div>
       <div className="elements">
         <div><Link to="/">Profile</Link></div>
-        <div><Link to="/quiz">Quiz</Link></div>
+        <div><Link to="/quizinfo">Quiz</Link></div>
         <div>Report Problem</div>
         <div>About Us</div>
         <div onClick={logout}>Log Out</div>

@@ -12,6 +12,8 @@
   margin-top: 10px;
 }
 #logo > img {
+  height: 50px;
+  width: 100px;
   float: left;
   margin-left: 100px;
 }

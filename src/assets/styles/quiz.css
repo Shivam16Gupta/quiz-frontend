@@ -72,3 +72,11 @@
 .css-17tyhk7-MuiButtonBase-root-MuiListItemButton-root.Mui-selected {
     background-color: #68B984 !important;
 }
+.instruction{
+    display: flex;
+    /* background-color:#FFFBF5 ; */
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

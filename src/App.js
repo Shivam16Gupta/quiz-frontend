@@ -23,7 +23,7 @@ function App() {
               </>
             )}
             <Route path="*" element={<Navigate to={user ? '/':'/login'} />} />
-            <Route path="/quiz" element={<QuizInfo/>} />
+            <Route path="/quizinfo" element={<QuizInfo/>} />
           </Routes>
         </BrowserRouter>
     </div>
