@@ -1,0 +1,16 @@
+
+.instruc_container{
+    padding: 4rem;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+    .instruc_container{
+        padding: 1rem !important;
+    }
+    .instruc {
+      font-size: 12px;
+      }
+    
+    
+  }

@@ -1,8 +1,9 @@
 import {useContext } from "react";
 import { UserContext } from "../context/UserContext";
-import NavBar from "./NavBar";
+//import NavBar from "./NavBar";
 import "../assets/styles/home.css";
 //import { Link } from "react-router-dom";
+import Nav from "./Nav";
 
 const Home = () => {
   const { user} = useContext(UserContext);
@@ -11,7 +12,8 @@ const Home = () => {
 
   return (
     <>
-      <NavBar />
+      
+      <Nav/>
       <div className="home">
         <div className="img">🧒🏻</div>
         <h1>

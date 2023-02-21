@@ -1,15 +1,105 @@
-.quizes{
-    display:flex;
-    flex-wrap: wrap;
-  justify-content: space-between;
+.quizes {
+  padding: 5rem;
+  width: 100%;
+  /* margin-top:5rem;
+  margin-left: 4rem; */
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(auto-fill, 110px);
+  grid-row-gap: 25.5em;
   
-  background-color: #FFFBF5;
+  
 }
-.item {
-    width: 32%;
-    padding-bottom: 32%; 
-    margin-bottom: 2%; 
-    position: relative;
-    margin:5rem;
+/* .item {
+  width: 21rem;
+  
+} */
+
+
+
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  
+  /* CSS */
+  .quizes {
+  
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(5, 1fr);
+      grid-column-gap: px;
+      grid-row-gap: 50px;
+      margin-left:15rem;
+      }
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  
+  /* CSS */
+  
+  .quizes {
+    width: 100vw;
+    margin-top:5rem;
+    margin-left: 7rem;
+    margin-bottom: 3rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(auto-fill, 110px);
+    grid-row-gap: 25.5em;
+    grid-column-gap: 1em;
+  }
+  .item {
+    width: 21rem;
     
   }
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 768px) and (orientation: landscape){
+  
+  /* CSS */
+
+  .quizes {
+      width: 0;
+      margin:0px;
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      grid-column-gap: 10px;
+      grid-row-gap: 35px;
+      
+  }
+  
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+  
+  /* CSS */
+  .quizes {
+    padding: 0rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: px;
+    grid-row-gap: 50px;
+    margin-left:2rem;
+    margin-top: 5rem;
+    }
+  
+  
+}

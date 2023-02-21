@@ -5,6 +5,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import QuizInfo from './components/QuizInfo';
+import Performance from './components/Performance';
+import ScopedCssBaseline from '@mui/material/CssBaseline';
 
 function App() {
 
@@ -12,6 +14,7 @@ function App() {
  
   return (
     <div className="container">
+      <ScopedCssBaseline />
         <BrowserRouter>
           <Routes>
             { user && <Route path="/" element={<Home/>} /> }
@@ -24,6 +27,7 @@ function App() {
             )}
             <Route path="*" element={<Navigate to={user ? '/':'/login'} />} />
             <Route path="/quizinfo" element={<QuizInfo/>} />
+            <Route path="/performance" element={<Performance/>} />
           </Routes>
         </BrowserRouter>
     </div>

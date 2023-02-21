@@ -1,0 +1,45 @@
+.MuiTableCell-head{
+    background-color: #537FE7;
+    color:white !important;
+}
+.MuiTableContainer-root{
+    /* margin: 10rem; */
+    width:80vw !important;
+    height: 80vh !important;
+}
+.scoresheet{
+    height: 100vh;
+    display: flex;
+    background-color: #F9F9F9;
+    align-items: center;
+    justify-content: center;
+}
+.MuiRating-root{
+    font-size: 3rem ;
+    /* margin-top:10rem;
+    margin-left: 20rem; */
+    top:25%;
+    left:40%;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+    .MuiTable-root{
+        min-width:auto;
+    }
+    .MuiTableContainer-root{
+        /* margin: 10rem; */
+        width:80vw !important;
+        height: 80vh !important;
+    }
+    
+    .MuiRating-root{
+        font-size: 2rem ;
+        /* margin-top:10rem;
+        margin-left: 20rem; */
+        top:15%;
+        left:14%;
+    }
+    
+    
+  }

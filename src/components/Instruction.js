@@ -1,12 +1,12 @@
 import React from 'react';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-
+import "../assets/styles/instruction.css";
 
 function Instruction() {
     return (
-        <div style={{padding:'4rem'}}>
-            <Paper elevation={5} sx={{padding:5,textAlign:'justify'}}>
+        <div className="instruc_container" >
+            <Paper className="instruc" elevation={5} sx={{padding:5,textAlign:'justify'}}>
             <Typography variant="subtitle1" gutterBottom>1. Log in to the exam platform using your credentials.</Typography>
 
             <Typography variant="subtitle1" gutterBottom>2. Read all instructions carefully before starting the exam. Make sure you understand the format, the time limit, the number of questions, and the marking scheme (negative or positive marking, if applicable).</Typography>
