@@ -4,6 +4,7 @@
   /* margin-top:5rem;
   margin-left: 4rem; */
   margin-bottom: 2rem;
+  
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(auto-fill, 110px);
@@ -27,7 +28,7 @@
       display: grid;
       grid-template-columns: 1fr;
       grid-template-rows: repeat(5, 1fr);
-      grid-column-gap: px;
+      grid-column-gap: 10px;
       grid-row-gap: 50px;
       margin-left:15rem;
       }

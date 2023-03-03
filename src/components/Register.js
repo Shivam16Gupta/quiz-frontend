@@ -11,6 +11,8 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
+    // phone: "",
+    // gender: "",
   });
 
   const onChangeInput = (e) => {
@@ -74,6 +76,31 @@ const Register = () => {
           value={formData.password}
           required
         />
+        {/* <label htmlFor="Phone">Phone:</label>
+        <input
+          type="phone"
+          name="Phone"
+          onChange={onChangeInput}
+          placeholder="Phone(+91)"
+          id="phone"
+          value={formData.phone}
+          required
+        />
+        <label htmlFor="gender">Gender:</label>
+
+        <label for="male">Male</label>
+        <input type="radio" id="male" name="gender" onChange={onChangeInput}
+          placeholder="Male"
+          
+          value={formData.gender}
+          required/>
+
+        <label for="female">Female</label>
+        <input type="radio" id="female" name="gender" onChange={onChangeInput}
+          placeholder="Female"
+          
+          value={formData.gender}
+          required/> */}
         {successMsg && <div className="success-msg">{successMsg}</div>}
         {errMsg && <div className="err-msg">{errMsg}</div>}
         <button type="submit" disabled={wait}>

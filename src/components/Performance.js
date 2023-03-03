@@ -9,49 +9,111 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { StyledEngineProvider } from "@mui/material/styles";
-import Rating from "@mui/material/Rating";
+// import Rating from "@mui/material/Rating";
 import "../assets/styles/performance.css";
+import Typography from "@mui/material/Typography";
+import useTimer from "./useTimer";
+import Nav from "./Nav";
+import { useNavigate } from "react-router-dom";
 
 function Performance(props) {
   const location = useLocation();
-  const { QuizInfo } = useContext(UserContext);
+  const history = useNavigate();
+  const {  hours, minutes, seconds } = useTimer(2 * 60 * 1000);
+  const { submitPerformance,user } = useContext(UserContext);
   const [unattempted, setUnattempted] = useState(0);
   const [answered, setAnswered] = useState(0);
   const [review, setReview] = useState(0);
   const [score, setScore] = useState(0);
-  const [pmarks, setPmarks] = useState(0);
-  const [nmarks, setNmarks] = useState(0);
+  const pmarks=parseInt(location.state.p);
+  const nmarks=parseInt(location.state.n);
   const [total, setTotal] = useState(0);
+  let performance={
+    quizid:'',
+    email:'',
+    unattempted:'',
+    review:'',
+    answered:'',
+    score:''
+  };
+
 
   useEffect(() => {
-    (async () => {
-      const data = await QuizInfo();
-      setPmarks(data.data.positivemarks);
-      setNmarks(data.data.negativemarks);
-    })();
-  }, []);
-
-  useEffect(() => {
-    let size = location.state.length;
+    let size = location.state.temp.length;
     setTotal(size);
-    const data = location.state;
-    let unattempted = 0,
-      review = 0,
-      answered = 0,
-      score = 0;
+  
+    let marks=0,unattempt=0,rev=0,ans=0;
+    const data = location.state.temp;
     for (let i = 0; i < size; i++) {
-      if (data[i].status === "unattempted") setUnattempted(unattempted + 1);
-      if (data[i].status === "answered") setAnswered(answered + 1);
-      if (data[i].status === "to-review") setReview(review + 1);
-      if (data[i].selected === data[i].answer) setScore(score + pmarks);
-      else setScore(score - nmarks);
-    }
-  }, []);
+      if (data[i].status === "unattempted") 
+       { setUnattempted(unattempted=>unattempted + 1);
+          ++unattempt;
+          console.log(unattempt);
+       }
+      else
+      if (data[i].status === "to-review") 
+      { ++rev;
+        setReview(review=>review + 1);
+      }
+      else
+      if (data[i].status === "answered") 
+      { ++ans;
+        setAnswered(answered=>answered + 1);
+        if (data[i].selected === data[i].answer)
+        { 
+          marks+=pmarks;
+          setScore(marks);
+          console.log(marks);
+        }
+        else
+        {
+          marks-=nmarks;
+          setScore(marks);
+          console.log(marks);
+        }
+      }
+      
+    } 
 
-  console.log(location.state.length);
+    performance={
+      quizid:location.state.quizno.num,
+      email:user.email,
+      unattempted:unattempt,
+      review:rev,
+      answered:ans,
+      score:marks
+    };
+    handlePerformance();
+    
+
+    
+  }, []);
+ 
+  const handlePerformance=() => {
+    console.log(performance);
+    (async () => {
+      const data = await submitPerformance(performance);
+      if (!data.success) {
+        console.log("Quiz Submitted");
+      }
+      else
+      {
+        console.log(data.message);
+      }
+    })();
+  }
+
+  useEffect(() => {
+    if(!hours && !minutes && !seconds){
+      history('/');
+    }
+  }, [hours, minutes, seconds]);
+  
+  
   return (
     <div className="scoresheet">
       <StyledEngineProvider injectFirst>
+        <Nav/>
         <TableContainer className="table" component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
@@ -93,15 +155,9 @@ function Performance(props) {
                   {unattempted}
                 </TableCell>
               </TableRow>
-              <TableRow>
-                <TableCell>Marks Acheived</TableCell>
-                <TableCell component="th" scope="row">
-                  {score}
-                </TableCell>
-              </TableRow>
             </TableBody>
           </Table>
-          <Rating name="size-large" defaultValue={2} size="large" />
+          <Typography sx={{width:"250px",margin:"auto",textAlign:"center",color:"green"}} variant="h6"><b>Your test has been submitted successfully! You can now close this window or you will be automaticaly redirected after...{hours}:{minutes}:{seconds} </b></Typography>
         </TableContainer>
       </StyledEngineProvider>
     </div>

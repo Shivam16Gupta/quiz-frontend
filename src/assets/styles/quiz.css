@@ -5,9 +5,9 @@
 .columns{
     display: flex;
     flex-direction: row;
-    height: 94.5vh;
+    
 }
-.header{
+/* .header{
     height: 2.5rem;
     width:100%;
     background-color: #5D3891;
@@ -15,6 +15,11 @@
     justify-content: flex-end;
     color: white;
     font-size:1.8rem;
+} */
+
+.qbtn{
+    display: flex;
+    flex-wrap: wrap;
 }
 .timer{
     margin-right:7rem;
@@ -64,14 +69,9 @@
 .quiz{
     display: flex;
     flex-direction: column;
+    height: 100vh;
+}
 
-}
-.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root.Mui-selected{
-    background-color:#68B984 !important;
-}
-.css-17tyhk7-MuiButtonBase-root-MuiListItemButton-root.Mui-selected {
-    background-color: #68B984 !important;
-}
 .instruction{
     display: flex;
     /* background-color:#FFFBF5 ; */

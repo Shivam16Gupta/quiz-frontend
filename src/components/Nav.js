@@ -22,11 +22,11 @@ const drawerWidth = 240;
 function Nav(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  //const {logout} = useContext(UserContext);
+  const {logout,user} = useContext(UserContext);
 
-  const navItems = [
+  const navItems = user?([
     {
-      title:'Profile',
+      title:'Dashboard',
       link:'/',
       func:''
     }, 
@@ -38,18 +38,28 @@ function Nav(props) {
     {
       title:'Logout',
       link:'/',
-      func:useContext(UserContext).logout
+      func:logout
     }
-  ];
+  ]):([
+    {
+    title:'Login',
+    link:'/login',
+    func:''
+  },
+  {title:'Signup',
+    link:'/signup',
+    func:''
+}
+]);
   
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
   };
-
+  
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        BCS
+        {process.env.REACT_APP_TITLE}
       </Typography>
       <Divider />
       <List>
@@ -87,7 +97,7 @@ function Nav(props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            BCS
+            {process.env.REACT_APP_TITLE}
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
           {navItems.map((item,index) => {
