@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import "../assets/styles/login.css";
+import Nav from "./Nav";
 
 const Login = () => {
   const { loginUser, wait, loggedInCheck } = useContext(UserContext);
@@ -38,6 +39,7 @@ const Login = () => {
   };
 
   return (
+    <><Nav/>
     <div className="myform">
       <h2>Login</h2>
       <form onSubmit={submitForm}>
@@ -48,7 +50,7 @@ const Login = () => {
           onChange={onChangeInput}
           placeholder="Your email"
           id="email"
-          value={formData.email}
+          //value={formData.email}
           required
         />
         <label htmlFor="password">Password:</label>
@@ -58,7 +60,7 @@ const Login = () => {
           onChange={onChangeInput}
           placeholder="New password"
           id="password"
-          value={formData.password}
+          //value={formData.password}
           required
         />
         {errMsg && <div className="err-msg">{errMsg}</div>}
@@ -74,6 +76,7 @@ const Login = () => {
         </div>
       </form>
     </div>
+    </>
   );
 };
 

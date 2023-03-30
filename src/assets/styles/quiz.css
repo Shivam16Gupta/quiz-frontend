@@ -5,7 +5,7 @@
 .columns{
     display: flex;
     flex-direction: row;
-    
+    height:100vh;
 }
 /* .header{
     height: 2.5rem;
@@ -38,33 +38,28 @@
 .quiz-window{
     flex-grow: 4;
     background-color: #ECF9FF;
+    height:100vh;
 }
-.unattempted{
-    height: 2.5rem;
-    width: 2.5rem;
-    border-radius: 50%;
-    cursor: pointer;
-    margin:0.4rem;
-}
+
 .review .save{
     height:0.2rem;
     width:1rem; 
 }
 .to-review{
-    height: 2.5rem;
-    width: 2.5rem;
-    border-radius: 50% ;
-    cursor: pointer;
-    margin:0.8rem;
-    background-color: rgb(239, 195, 21) !important;
+    
+    color: #E7B10A !important;
 }
 .answered{
+    
+    color: green !important;
+}
+.current{
     height: 2.5rem;
     width: 2.5rem;
     border-radius: 50%;
     cursor: pointer;
     margin:0.8rem;
-    background-color: green !important;
+    border-color: green !important;
 }
 .quiz{
     display: flex;

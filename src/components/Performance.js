@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useLocation } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -9,24 +8,22 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { StyledEngineProvider } from "@mui/material/styles";
-// import Rating from "@mui/material/Rating";
 import "../assets/styles/performance.css";
 import Typography from "@mui/material/Typography";
 import useTimer from "./useTimer";
 import Nav from "./Nav";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function Performance(props) {
   const location = useLocation();
   const history = useNavigate();
   const {  hours, minutes, seconds } = useTimer(2 * 60 * 1000);
-  const { submitPerformance,user } = useContext(UserContext);
+  const { submitPerformance,user,wait } = useContext(UserContext);
   const [unattempted, setUnattempted] = useState(0);
   const [answered, setAnswered] = useState(0);
   const [review, setReview] = useState(0);
-  const [score, setScore] = useState(0);
-  const pmarks=parseInt(location.state.p);
-  const nmarks=parseInt(location.state.n);
   const [total, setTotal] = useState(0);
   let performance={
     quizid:'',
@@ -34,7 +31,6 @@ function Performance(props) {
     unattempted:'',
     review:'',
     answered:'',
-    score:''
   };
 
 
@@ -42,7 +38,7 @@ function Performance(props) {
     let size = location.state.temp.length;
     setTotal(size);
   
-    let marks=0,unattempt=0,rev=0,ans=0;
+    let unattempt=0,rev=0,ans=0;
     const data = location.state.temp;
     for (let i = 0; i < size; i++) {
       if (data[i].status === "unattempted") 
@@ -56,36 +52,22 @@ function Performance(props) {
         setReview(review=>review + 1);
       }
       else
-      if (data[i].status === "answered") 
-      { ++ans;
+      if(data[i].status === "answered")
+      {
+        ++ans;
         setAnswered(answered=>answered + 1);
-        if (data[i].selected === data[i].answer)
-        { 
-          marks+=pmarks;
-          setScore(marks);
-          console.log(marks);
-        }
-        else
-        {
-          marks-=nmarks;
-          setScore(marks);
-          console.log(marks);
-        }
       }
       
     } 
 
     performance={
-      quizid:location.state.quizno.num,
+      quizid:location.state.quizno,
       email:user.email,
       unattempted:unattempt,
       review:rev,
       answered:ans,
-      score:marks
     };
     handlePerformance();
-    
-
     
   }, []);
  
@@ -114,6 +96,12 @@ function Performance(props) {
     <div className="scoresheet">
       <StyledEngineProvider injectFirst>
         <Nav/>
+        <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={wait}
+            //onClick={handleClose}
+          ><CircularProgress color="inherit" />
+          </Backdrop>
         <TableContainer className="table" component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>

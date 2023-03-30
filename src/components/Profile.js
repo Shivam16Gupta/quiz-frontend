@@ -3,15 +3,14 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ProfilePaper from "../assets/styles/profilepaper.js";
-import { useState,useEffect,useContext,useRef } from "react";
+import { useState,useContext } from "react";
 import { UserContext } from "../context/UserContext";
-// import AdapterDateFns from "@mui/lab/AdapterDateFns";
-// import LocalizationProvider from "@mui/lab/LocalizationProvider";
-// import DatePicker from "@mui/lab/DatePicker";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Profile = (props) => {
   const [edit, setEdit] = useState(false);
-  const {user,updateProfile}=useContext(UserContext);
+  const {user,wait,updateProfile}=useContext(UserContext);
     const [text,setText]=useState(user);
     const [profileData,setProfileData]=useState({
         name:user.name,
@@ -48,6 +47,12 @@ const onChangeInput = (e) => {
   console.log(user);
   return (
     <Box sx={{ width: "auto", ml: { sm: "200px", xs: "none" }, mt: "4rem" }}>
+      <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={wait}
+            //onClick={handleClose}
+          ><CircularProgress color="inherit" />
+          </Backdrop>
       <ProfilePaper elevation={6}>
       <TextField
           sx={{ margin: "10px",marginLeft: "auto",

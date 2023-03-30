@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import "../assets/styles/register.css";
+import Nav from "./Nav";
+
 
 const Register = () => {
   const { registerUser, wait } = useContext(UserContext);
@@ -43,6 +45,7 @@ const Register = () => {
   };
 
   return (
+    <><Nav/>
     <div className="myform">
       <h2>Sign Up</h2>
       <form onSubmit={submitForm}>
@@ -111,6 +114,7 @@ const Register = () => {
         </div>
       </form>
     </div>
+    </>
   );
 };
 

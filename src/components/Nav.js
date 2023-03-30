@@ -13,26 +13,73 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
-import {useContext} from 'react'
-import {UserContext} from '../context/UserContext'
+import {useContext,useState} from 'react';
+import {UserContext} from '../context/UserContext';
+import { styled, alpha } from '@mui/material/styles';
+import SearchIcon from '@mui/icons-material/Search';
+import InputBase from '@mui/material/InputBase';
+import { useNavigate } from "react-router-dom";
+import logo from '../assets/images/edulogo.png';
 
 const drawerWidth = 240;
 
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '25ch',
+      
+      '&:focus': {
+        width: '30ch',
+      },
+    },
+  },
+}));
 
 function Nav(props) {
   const { window } = props;
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const {logout,user} = useContext(UserContext);
-
+  const history = useNavigate();
   const navItems = user?([
     {
       title:'Dashboard',
-      link:'/',
+      link:'/home',
       func:''
     }, 
     {
       title:'Quiz',
-      link:'/quizinfo',
+      link:'/',
       func:''
     }, 
     {
@@ -43,7 +90,7 @@ function Nav(props) {
   ]):([
     {
     title:'Login',
-    link:'/login',
+    link:'/signin',
     func:''
   },
   {title:'Signup',
@@ -58,8 +105,9 @@ function Nav(props) {
   
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        {process.env.REACT_APP_TITLE}
+      <Typography variant="h6" sx={{ my: 2,fontFamily:"'Poppins'",fontWeight:"1000" }}>
+        {/* <Link style={{ textDecoration:'none !important' }} to={user ? "/quizinfo" : "/gallery"}><img src={logo} style={{height:"40px"}} alt='logo'/></Link> */}
+        <Link style={{ textDecoration:'none !important' }} to={user ? "/quizinfo" : "/gallery"}>{process.env.REACT_APP_TITLE}</Link>
       </Typography>
       <Divider />
       <List>
@@ -67,7 +115,7 @@ function Nav(props) {
           <ListItem key={index} disablePadding>
             <ListItemButton sx={{ textAlign: 'center' }} onClick={item.func}>
               
-              <ListItemText><Link to={item.link}>{item.title}</Link></ListItemText>
+              <ListItemText><Link style={{ textDecoration:'none !important' }} to={item.link}>{item.title}</Link></ListItemText>
               
             </ListItemButton>
           </ListItem>
@@ -76,13 +124,26 @@ function Nav(props) {
     </Box>
   );
 
+  
+  // const handlePage=()=>{
+  //   history(user?'/quizinfo':'/gallery',{state:term});
+  // }
+
+  const handleSearch=(e)=>{
+    if(e.key==='Enter'){
+    //setTerm(prevTerm=>{return e.target.value});
+    const term="%"+e.target.value+"%";
+    //console.log(para);
+    history(user?'/':'/gallery',{state: term});
+    }
+  }
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box sx={{ display: 'flex' }}>
       
       <AppBar component="nav">
-        <Toolbar sx={{'@media (min-width:600px)':{minHeight:"45px"}}}>
+        <Toolbar sx={{justifyContent: "space-between",'@media (min-width:600px)':{minHeight:"45px"},}}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -95,15 +156,29 @@ function Nav(props) {
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            sx={{ flexGrow: 1,fontFamily:"'Poppins'",fontWeight:"1000", display: { xs: 'none', sm: 'block' } }}
           >
-            {process.env.REACT_APP_TITLE}
+            {/* <Link style={{ color: '#FFF' }} to={user ? "/quizinfo" : "/gallery"}><img src={logo} style={{height:"40px"}} alt='logo'/></Link> */}
+            {/* <Link style={{ color: '#FFF' }} to={user ? "/quizinfo" : "/gallery"}>{process.env.REACT_APP_TITLE}</Link> */}
+            <Link style={{ color: '#FFF' }} to={user ? "/quizinfo" : "/gallery"}><img src={logo} style={{height:"30px",marginTop:"5px"}} alt='logo'/></Link>
           </Typography>
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+              name='search'
+              //onFocus={handlePage}
+              onKeyDown={handleSearch}
+            />
+          </Search>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
           {navItems.map((item,index) => {
               console.log(item);
             return(
-              <Link to={item.link}>
+              <Link style={{ textDecoration:'none' }} to={item.link}>
               <Button key={index} sx={{ color: '#fff' }} onClick={item.func}>
                 <div>{item.title}</div>
               </Button></Link>);}

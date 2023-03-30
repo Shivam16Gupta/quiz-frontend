@@ -6,92 +6,116 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
+import Chip from '@mui/material/Chip';
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
-import '../assets/styles/quizinfo.css';
 import Nav from "./Nav";
+import { useLocation } from "react-router-dom";
+import QuizBox from "../assets/styles/quizbox.js";
+import Banner from "./Banner";
 
 
 const QuizInfo=()=> {
   const { QuizInfo,user } = useContext(UserContext);
   const [quizinfo, setQuizinfo] = useState([]);
   const [selectedQuiz, setSelectedQuiz] = useState(false);
+  const [pmarks, setPmarks] = useState();
+  const [nmarks, setNmarks] = useState();
   const [quizNum, setQuizNum] = useState({
     num:'',
     
   });
   const [time,setTime]=useState();
-  const [show,setShow]=useState();
-  const [pmarks, setPmarks] = useState(0);
-  const [nmarks, setNmarks] = useState(0);
+  const location = useLocation();
   console.log(user);
+  const para=location.state;
+  const search=new FormData();
+  if(!para){
+    search.append('email',user.email);
+    search.append('search','%');
+    }
+    else{
+      search.append('email',user.email);
+      search.append('search',para);
+    }
 
   useEffect(() => {
-    (async () => {
-      const data = await QuizInfo(user);
-      //console.log(data);
-      setQuizinfo(data.data);
-    })();
-  }, []);
+    QuizInfo(search).then(data => {
+      setQuizinfo(data);
+    });
+  }, [para]);
+  
 
   const handleQuiz = (e) => {
     setSelectedQuiz(true);
-    setQuizNum({num:e.quizid});
+    setQuizNum(e.quizid);
     setTime(e.duration_hrs);
-    setShow(e.showresult);
     setPmarks(e.positivemarks);
     setNmarks(e.negativemarks);
   };
 
-
+const handleTags=(e)=>{
+  const tag=e.split(',');
+return tag.map((id)=>{
+return <Chip label={id} variant="outlined" />
+});
+}
   
   return (
     <>
-      
         {selectedQuiz ? (
-          <Quiz quizno={quizNum} duration={time} show={show} p={pmarks} n={nmarks} />
-        ) : (<div><Nav/><div className="quizes">{
+          <Quiz quizno={quizNum} duration={time} p={pmarks} n={nmarks} />
+        ) : (<div><Nav/><div><Banner/></div><QuizBox sx={{ width: "auto", mt: "55vh" }}>{
           quizinfo.map((obj) => {
             return (
               <div className="item" key={obj.quizid}>
                 <Card sx={{ maxWidth: 345 }}>
                   <CardHeader
-                    avatar={
-                      <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                        {obj.quizid}
-                      </Avatar>
-                    }
-                    action={
-                      <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
-                    title={obj.subject}
-                    subheader={'Maximum Marks: '+obj.maxmarks}
+                  sx={{fontFamily:"Poppins",textTransform:"capitalize",paddingTop:"4px",paddingBottom:"4px"}}
+                    title={obj.title}
                   />
                   <CardMedia
                     component="img"
                     height="194"
-                    image={obj.banner}
+                    image={`data:image/*;base64,${obj.banner}`}
                     alt="organization"
                   />
-                  <CardContent>
-                    <Typography variant="body2" color="text.secondary">
+                  <Divider/>
+                  <CardContent sx={{paddingTop:"4px",paddingBottom:"4px"}}>
+                    <Typography sx={{fontFamily:"Poppins",color:"#472183",textTransform:"capitalize"}}>
                       {obj.description}
                     </Typography>
+                    <Typography sx={{fontFamily:"Poppins",color:"#472183",textTransform:"capitalize"}} variant="body2">
+                        {"Positive Marks: " + obj.positivemarks}
+                      </Typography>
+                      <Typography sx={{fontFamily:"Poppins",color:"#472183",textTransform:"capitalize"}} variant="body2">
+                        {"Negative Marks: " + obj.negativemarks}
+                      </Typography>
                   </CardContent>
-                  
-                    <CardContent>
-                      <Typography paragraph>
-                      <Typography variant="body2" color="text.secondary">{'Positive Marks: '+obj.positivemarks}</Typography>
-                      <Typography variant="body2" color="text.secondary">{'Negative Marks: '+obj.negativemarks}</Typography>
-                        <Button variant="contained" sx={{marginLeft:28}} onClick={() => handleQuiz(obj)}>
-                          Begin
+                  <Divider/>
+                  <CardContent sx={{paddingTop:"4px",paddingBottom:"4px"}}>
+                    <Typography sx={{fontFamily:"Poppins",textTransform:"capitalize"}}>
+                      {handleTags(obj.tags)}
+                    </Typography>
+                  </CardContent>
+                  <Divider/>
+                    <CardContent sx={{paddingTop:"4px",paddingBottom:"4px"}}>
+                      <Typography sx={{display:'flex'}}>
+                        {obj.totalquestions} Questions
+                        </Typography>
+                        <Typography sx={{display:'flex'}}>
+                        {(obj.duration_hrs)*60} Minutes
+                        </Typography>
+                        <Button variant="outlined" sx={{marginLeft:28,my:"auto"}} onClick={() => handleQuiz(obj)}>
+                        {obj.paid==='1'?'Paid':'Free'}
                         </Button>
+                      
+                      </CardContent>
+                      <Divider/>
+                      <CardContent sx={{paddingTop:"4px",paddingBottom:"4px",height:"30px"}}>
+                      <Typography sx={{fontFamily:"Poppins",color:"#472183",textTransform:"capitalize"}}>
+                      <b>{" By: " + obj.author}</b>
                       </Typography>
                     </CardContent>
                   
@@ -99,7 +123,7 @@ const QuizInfo=()=> {
               </div>
             );
           })
-}</div></div>)
+}</QuizBox></div>)
         }
       
     </>

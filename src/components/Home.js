@@ -16,11 +16,13 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import Profile from "./Profile";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const drawerWidth = 200;
 
 const Home = (props) => {
-  const { user, viewScore } = useContext(UserContext);
+  const { wait,user, viewScore } = useContext(UserContext);
   const [score, setScore] = useState("");
   const [profile, setProfile] = useState(false);
   //console.log("env="+process.env.REACT_APP_VERSION_APP);
@@ -55,9 +57,54 @@ const Home = (props) => {
     console.log(profile);
   };
 
+  const handleColor=(e,item)=>{
+    const answer=JSON.parse(e.correct_ans);
+    const index=item.questionid;
+    if(item.selected==='a')
+      return item.choice1===answer[index-1]?(item.status==='to-review'?"#E7B10A":"green"):(item.status==='to-review'?"#E7B10A":"red");
+    if(item.selected==='b')
+    return item.choice2===answer[index-1]?(item.status==='to-review'?"#E7B10A":"green"):(item.status==='to-review'?"#E7B10A":"red");
+    if(item.selected==='c')
+    return item.choice3===answer[index-1]?(item.status==='to-review'?"#E7B10A":"green"):(item.status==='to-review'?"#E7B10A":"red");
+    if(item.selected==='d')
+    return item.choice4===answer[index-1]?(item.status==='to-review'?"#E7B10A":"green"):(item.status==='to-review'?"#E7B10A":"red");
+  };
+
+  const handleResponse=(e)=>{
+
+    if(e.selected==='a')
+    return e.choice1?e.choice1:<img src={e.choice1Img} alt='response'/>;
+    if(e.selected==='b')
+    return e.choice2?e.choice2:<img src={e.choice2Img} alt='response'/>;
+    if(e.selected==='c')
+    return e.choice3?e.choice3:<img src={e.choice3Img} alt='response'/>;
+    if(e.selected==='d')
+    return e.choice4?e.choice4:<img src={e.choice4Img} alt='response'/>;
+
+  }
+
+  const handleAnswer=(e,index)=>{
+    // if(e.answer==='a')
+    // return e.choice1?e.choice1:<img src={e.choice1Img} alt='answer'/>;
+    // if(e.answer==='b')
+    // return e.choice2?e.choice2:<img src={e.choice2Img} alt='answer'/>;
+    // if(e.answer==='c')
+    // return e.choice3?e.choice3:<img src={e.choice3Img} alt='answer'/>;
+    // if(e.answer==='d')
+    // return e.choice4?e.choice4:<img src={e.choice4Img} alt='answer'/>;
+
+    return JSON.parse(e.correct_ans)[index-1];
+  }
+
   return (
     <>
       <Nav />
+      <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={wait}
+            //onClick={handleClose}
+          ><CircularProgress color="inherit" />
+          </Backdrop>
       <div className="home">
         <Fab
           color="primary"
@@ -178,7 +225,7 @@ const Home = (props) => {
                           id="panel1a-header"
                         >
                           <Typography>
-                            {obj.description}-{obj.author}
+                            {obj.title}-{obj.author}
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -221,13 +268,16 @@ const Home = (props) => {
                                   <Typography>
                                     {item.questionid}:{item.desc}
                                   </Typography>
-                                  <Typography>
+                                  {/* <Typography sx={{color:`${item.status==='to-review'?"#E7B10A":"green"}`}}> */}
+                                  <Typography sx={{color:`${handleColor(obj,item)}`}}>
                                     <b>Response:</b>
-                                    {item.selected ? item.selected : "N/A"}
+                                    {/* {item.selected ? item.selected : "N/A"} */}
+                                    {handleResponse(item)}
                                   </Typography>
                                   <Typography>
                                     <b>Correct Answer:</b>
-                                    {item.answer}
+                                    {/* {item.answer} */}
+                                    {handleAnswer(obj,item.questionid)}
                                   </Typography>
                                 </div>
                               );
